@@ -19,7 +19,7 @@ const Chat = () => {
   useEffect(() => {
     fetchRoomData();
     
-    socketRef.current = io('http://localhost:5000', {
+    socketRef.current = io(import.meta.env.VITE_API_URL, {
       auth: { token: localStorage.getItem('token') }
     });
 
@@ -45,8 +45,8 @@ const Chat = () => {
   const fetchRoomData = async () => {
     try {
       const [roomRes, msgRes] = await Promise.all([
-        axios.get(`http://localhost:5000/api/rooms`),
-        axios.get(`http://localhost:5000/api/rooms/${roomId}/messages`)
+        axios.get(`${import.meta.env.VITE_API_URL}/api/rooms`),
+        axios.get(`${import.meta.env.VITE_API_URL}/api/rooms/${roomId}/messages`)
       ]);
       const currentRoom = roomRes.data.find(r => r._id === roomId);
       setRoom(currentRoom);

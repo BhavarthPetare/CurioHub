@@ -17,8 +17,8 @@ const Dashboard = () => {
   const fetchRooms = async () => {
     try {
       const [recRes, allRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/rooms/recommended'),
-        axios.get('http://localhost:5000/api/rooms')
+        axios.get(`${import.meta.env.VITE_API_URL}/api/rooms/recommended`),
+        axios.get(`${import.meta.env.VITE_API_URL}/api/rooms`)
       ]);
       setRecommendedRooms(recRes.data);
       setAllRooms(allRes.data);
