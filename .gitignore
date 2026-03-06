@@ -1,19 +1,22 @@
 # Dependencies
-node_modules/
+**/node_modules/
 dist/
-.env
-
-# Vite
 .vite/
+
+# Environment
+.env*
+! .env.example
+
+# Logs
+*.log
+**/logs/
 
 # IDEs
 .vscode/
 .idea/
+*.swp
+*.swo
 
 # OS
 .DS_Store
 Thumbs.db
-
-# Build artifacts
-server/logs/
-server/error.log
