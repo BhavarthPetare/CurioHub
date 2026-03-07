@@ -1,8 +1,10 @@
-const express = require('express');
+import express from 'express';
+import Room from '../models/Room.js';
+import auth from '../middleware/auth.js';
+import Message from '../models/Message.js';
+import User from '../models/User.js';
+
 const router = express.Router();
-const Room = require('../models/Room');
-const auth = require('../middleware/auth');
-const Message = require('../models/Message');
 
 router.get('/', auth, async (req, res) => {
   try {
@@ -15,7 +17,7 @@ router.get('/', auth, async (req, res) => {
 
 router.get('/recommended', auth, async (req, res) => {
   try {
-    const user = await require('../models/User').findById(req.user.id);
+    const user = await User.findById(req.user.id);
     if (!user || !user.interests.length) {
       const rooms = await Room.find().limit(5).sort({ activeUsersCount: -1 });
       return res.json(rooms);
@@ -39,4 +41,4 @@ router.get('/:roomId/messages', auth, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

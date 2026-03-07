@@ -1,13 +1,19 @@
-require('dotenv').config();
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const http = require('http');
-const { Server } = require('socket.io');
-const path = require('path');
+import 'dotenv/config';
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import http from 'http';
+import { Server } from 'socket.io';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const Room = require('./models/Room');
-const Message = require('./models/Message');
+import Room from './models/Room.js';
+import Message from './models/Message.js';
+import roomRoutes from './routes/rooms.js';
+import authRoutes from './routes/auth.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const server = http.createServer(app);
@@ -17,14 +23,29 @@ app.use(cors({ origin: process.env.CORS_ORIGIN || '*' }));
 app.use(express.json());
 
 // Routes
-app.use('/api/rooms', require('./routes/rooms'));
+app.use('/api/rooms', roomRoutes);
+app.use('/api/auth', authRoutes);
 
 // Static Front-end serving (Monolith support)
-app.use(express.static(path.join(__dirname, '../client/dist')));
+const clientDistPath = path.join(__dirname, '../client/dist');
+app.use(express.static(clientDistPath));
 
 // Catch-all route to serve the SPA (Refresh fix)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
+// Express 5 requires named wildcards: use /:path* for everything
+app.get('/:path*', (req, res) => {
+  const indexPath = path.join(clientDistPath, 'index.html');
+  
+  // Safety check: if index.html is missing, it's likely a dev environment issue
+  path.exists = (p) => {
+    try { return !!path.resolve(p); } catch(e) { return false; }
+  };
+  
+  res.sendFile(indexPath, (err) => {
+    if (err) {
+      console.error('Catch-all error: Could not serve index.html. Is the frontend built?');
+      res.status(404).send('Not Found: The application frontend is not built. Please run "npm run build" in the client directory.');
+    }
+  });
 });
 
 // DB Connection
