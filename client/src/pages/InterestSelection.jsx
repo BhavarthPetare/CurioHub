@@ -35,34 +35,34 @@ const InterestSelection = () => {
     <div className="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen font-display gradient-mesh">
       <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden">
         <div className="layout-container flex h-full grow flex-col">
-          <header className="flex items-center justify-between border-b border-primary/20 px-8 py-4 lg:px-20">
+          <header className="flex items-center justify-between border-b border-primary/20 px-4 sm:px-8 py-4 lg:px-20">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-white">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-white shrink-0">
                 <span className="material-symbols-outlined text-2xl">auto_awesome</span>
               </div>
-              <h2 className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">CurioHub</h2>
+              <h2 className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white truncate">CurioHub</h2>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3 sm:gap-4">
               <button className="flex items-center justify-center p-2 rounded-full hover:bg-primary/10 text-slate-600 dark:text-slate-400">
                 <span className="material-symbols-outlined">notifications</span>
               </button>
               <div 
-                className="h-10 w-10 rounded-full border-2 border-primary/30 bg-cover bg-center" 
+                className="h-10 w-10 rounded-full border-2 border-primary/30 bg-cover bg-center shrink-0" 
                 style={{ backgroundImage: `url('https://ui-avatars.com/api/?name=${user?.name || 'User'}&background=7311d4&color=fff')` }}
               ></div>
             </div>
           </header>
-          <main className="flex-1 flex flex-col items-center justify-center px-6 py-12">
+          <main className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 py-8 sm:py-12">
             <div className="max-w-4xl w-full flex flex-col items-center text-center">
-              <div className="mb-12 space-y-4">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 dark:text-white">
+              <div className="mb-8 sm:mb-12 space-y-3 sm:space-y-4">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 dark:text-white">
                   Select your interests
                 </h1>
-                <p className="text-lg text-slate-500 dark:text-primary/60 font-medium">
+                <p className="text-base sm:text-lg text-slate-500 dark:text-primary/60 font-medium">
                   Pick <span className="text-primary font-bold">at least 3</span> to personalize your experience
                 </p>
               </div>
-              <div className="flex flex-wrap justify-center gap-4 mb-16 max-w-3xl">
+              <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-10 sm:mb-16 max-w-3xl">
                 {interests.map(interest => (
                   <div 
                     key={interest}

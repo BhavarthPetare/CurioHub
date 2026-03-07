@@ -7,6 +7,7 @@ const Dashboard = () => {
   const [recommendedRooms, setRecommendedRooms] = useState([]);
   const [allRooms, setAllRooms] = useState([]);
   const [search, setSearch] = useState('');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -33,8 +34,16 @@ const Dashboard = () => {
   );
 
   return (
-    <div className="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex font-display">
-      <aside className="fixed left-0 top-0 h-screen w-72 bg-surface-dark border-r border-primary/10 flex flex-col p-6 z-20">
+    <div className="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex font-display relative overflow-x-hidden">
+      {/* Mobile Menu Overlay */}
+      {isMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
+          onClick={() => setIsMenuOpen(false)}
+        ></div>
+      )}
+
+      <aside className={`fixed left-0 top-0 h-screen w-72 bg-surface-dark border-r border-primary/10 flex flex-col p-6 z-50 transition-transform duration-300 md:translate-x-0 ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex items-center gap-3 mb-10">
           <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
             <span className="material-symbols-outlined text-white">explore</span>
@@ -82,16 +91,23 @@ const Dashboard = () => {
         </div>
       </aside>
 
-      <main className="ml-72 flex-1 p-8 custom-scrollbar overflow-y-auto">
-        <header className="mb-10">
-          <div className="max-w-3xl">
+      <main className="flex-1 md:ml-72 p-4 sm:p-6 md:p-8 custom-scrollbar overflow-y-auto">
+        <header className="mb-6 sm:mb-10 flex items-center gap-4">
+          <button 
+            onClick={() => setIsMenuOpen(true)}
+            className="md:hidden p-2 rounded-xl bg-surface-dark border border-primary/20 text-slate-100 active:scale-95 transition-all"
+          >
+            <span className="material-symbols-outlined">menu</span>
+          </button>
+          
+          <div className="flex-1 max-w-3xl">
             <div className="relative group">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <span className="material-symbols-outlined text-slate-400 group-focus-within:text-primary transition-colors">search</span>
               </div>
               <input 
-                className="block w-full pl-12 pr-4 py-4 bg-surface-dark border border-primary/10 rounded-2xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" 
-                placeholder="Search for CurioHub rooms, interests, or friends..." 
+                className="block w-full pl-12 pr-4 py-3 sm:py-4 bg-surface-dark border border-primary/10 rounded-2xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-sm sm:text-base" 
+                placeholder="Search for CurioHub rooms..." 
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}

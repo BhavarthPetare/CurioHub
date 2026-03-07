@@ -46,8 +46,8 @@ const Register = () => {
                     </Link>
                 </div>
             </header>
-            <main className="flex-1 flex items-center justify-center p-6 auth-gradient">
-                <div className="w-full max-w-[1100px] grid grid-cols-1 lg:grid-cols-2 bg-white dark:bg-slate-900/40 rounded-2xl overflow-hidden shadow-2xl border border-slate-200 dark:border-primary/10 backdrop-blur-sm">
+            <main className="flex-1 flex items-center justify-center p-4 sm:p-6 auth-gradient">
+                <div className="w-full max-w-[1100px] grid grid-cols-1 lg:grid-cols-2 bg-white dark:bg-slate-900/40 rounded-2xl overflow-hidden shadow-2xl border border-slate-200 dark:border-primary/10 backdrop-blur-sm mx-auto">
                     <div className="hidden lg:block relative overflow-hidden group">
                         <div className="absolute inset-0 bg-gradient-to-br from-primary/80 to-background-dark/90 z-10"></div>
                         <div className="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuBkmxY0frBMXxm2aXoPXmDvJn-FKTMO1P2BrrAocijtPzsOaba11yCRs87s4rVfxiLeEv49n-WZSuZddCqBSINs3AsranXmc4RoO_wtgeFlrZM3KRwKnJ4cexxjjuU04iFqX_uPCIaNNYGvRYdX2rtiwYgeU36ticSbhufGAaJrrmXD2R0TxYnGoegm12sDdGyc0oyJRuZ9HKILt_4iMmU4GDn4m5p2d-MYdSi2OMpkclWgafWtojKdh0om8A2oJdxMu2lyT3XghOWZ')" }}></div>
@@ -68,7 +68,7 @@ const Register = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="p-8 md:p-12 lg:p-16 flex flex-col justify-center">
+                    <div className="p-6 sm:p-8 md:p-12 lg:p-16 flex flex-col justify-center">
                         <div className="mb-10 text-center lg:text-left">
                             <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">Create an account</h2>
                             <p className="text-slate-500 dark:text-slate-400">Join our community and explore the curiosities.</p>

@@ -33,8 +33,8 @@ const Login = () => {
           </div>
           <h1 className="font-serif text-3xl font-bold tracking-tight text-white">CurioHub</h1>
         </div>
-        <div className="w-full max-w-[440px] overflow-hidden rounded-xl bg-white dark:bg-[#251b2e] shadow-2xl transition-all border border-white/5">
-          <div className="px-8 pt-10 pb-8">
+        <div className="w-full max-w-[440px] overflow-hidden rounded-2xl bg-white dark:bg-[#251b2e] shadow-2xl transition-all border border-white/5 mx-auto">
+          <div className="px-6 sm:px-8 pt-10 pb-8">
             <div className="mb-8 text-center">
               <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Welcome Back</h2>
               <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Enter your credentials to access your account</p>

@@ -79,17 +79,17 @@ const Chat = () => {
   return (
     <div className="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
       <div className="relative flex h-screen w-full flex-col overflow-hidden">
-        <header className="flex items-center justify-between border-b border-primary/20 bg-background-light dark:bg-background-dark/80 backdrop-blur-md px-6 py-3 z-20">
-          <div className="flex items-center gap-8">
-            <div onClick={() => navigate('/dashboard')} className="flex items-center gap-3 text-primary cursor-pointer">
-              <div className="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
-                <span className="material-symbols-outlined text-2xl">hub</span>
+        <header className="flex items-center justify-between border-b border-primary/20 bg-background-light dark:bg-background-dark/80 backdrop-blur-md px-4 sm:px-6 py-3 z-20">
+          <div className="flex items-center gap-3 md:gap-8">
+            <div onClick={() => navigate('/dashboard')} className="flex items-center gap-2 sm:gap-3 text-primary cursor-pointer active:scale-95 transition-all">
+              <div className="size-8 bg-primary rounded-lg flex items-center justify-center text-white shrink-0">
+                <span className="material-symbols-outlined text-xl sm:text-2xl">arrow_back</span>
               </div>
-              <h2 className="text-slate-900 dark:text-white text-xl font-extrabold tracking-tight">CurioHub</h2>
+              <h2 className="hidden sm:block text-slate-900 dark:text-white text-lg sm:text-xl font-extrabold tracking-tight">CurioHub</h2>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-primary/20 border-2 border-primary overflow-hidden">
+            <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-primary/20 border-2 border-primary overflow-hidden shrink-0">
               <img 
                 className="w-full h-full object-cover" 
                 src={`https://ui-avatars.com/api/?name=${user?.name || 'User'}&background=7311d4&color=fff`} 
@@ -126,30 +126,30 @@ const Chat = () => {
                 }
 
                 return (
-                  <div key={i} className={`flex ${isMe ? 'flex-row-reverse' : 'flex-row'} items-start gap-3 max-w-2xl ${isMe ? 'ml-auto' : ''} ${isSystem ? 'max-w-full justify-center w-full' : ''}`}>
+                  <div key={i} className={`flex ${isMe ? 'flex-row-reverse' : 'flex-row'} items-start gap-2 sm:gap-3 max-w-[95%] sm:max-w-2xl ${isMe ? 'ml-auto' : ''} ${isSystem ? 'max-w-full justify-center w-full' : ''}`}>
                     {!isSystem && (
-                      <div className="h-10 w-10 rounded-full shrink-0 mt-1 overflow-hidden transition-all">
+                      <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full shrink-0 mt-1 overflow-hidden transition-all">
                         <img 
                           className="w-full h-full object-cover" 
                           src={`https://ui-avatars.com/api/?name=${senderName}&background=${isMe ? '7311d4' : '3c2a52'}&color=fff`} 
                         />
                       </div>
                     )}
-                    <div className={`flex flex-col gap-1 ${isMe ? 'items-end text-right' : ''} ${isSystem ? 'items-center w-full' : ''}`}>
+                    <div className={`flex flex-col gap-0.5 sm:gap-1 ${isMe ? 'items-end text-right' : ''} ${isSystem ? 'items-center w-full' : ''}`}>
                       {!isSystem && (
                         <div className="flex items-center gap-2">
-                          <span className="text-sm font-bold dark:text-slate-200">{senderName}</span>
-                          <span className="text-[11px] text-slate-500">{timeStr}</span>
+                          <span className="text-[12px] sm:text-sm font-bold dark:text-slate-200">{senderName}</span>
+                          <span className="text-[10px] text-slate-500">{timeStr}</span>
                         </div>
                       )}
-                      <div className={`px-4 py-3 rounded-2xl ${
+                      <div className={`px-3 sm:px-4 py-2 sm:py-3 rounded-2xl ${
                         isSystem 
-                          ? 'bg-slate-500/10 text-slate-400 italic text-[11px] mx-auto rounded-full border border-slate-500/10' 
+                          ? 'bg-slate-500/10 text-slate-400 italic text-[10px] sm:text-[11px] mx-auto rounded-full border border-slate-500/10' 
                           : isMe 
                             ? 'bg-primary text-white rounded-tr-none shadow-md shadow-primary/20' 
                             : 'bg-slate-100 dark:bg-primary/10 border border-slate-200 dark:border-primary/20 rounded-tl-none'
                       }`}>
-                        <p className="text-sm">{msg.text}</p>
+                        <p className="text-[13px] sm:text-sm">{msg.text}</p>
                         {isSystem && <span className="ml-2 not-italic opacity-60">({timeStr})</span>}
                       </div>
                     </div>
