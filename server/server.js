@@ -30,15 +30,9 @@ app.use('/api/auth', authRoutes);
 const clientDistPath = path.join(__dirname, '../client/dist');
 app.use(express.static(clientDistPath));
 
-// Catch-all route to serve the SPA (Refresh fix)
-// Express 5 requires named wildcards: use /:path* for everything
-app.get('/:path*', (req, res) => {
+// Stay compatible with Express 5: use *path for named wildcard
+app.get('*path', (req, res) => {
   const indexPath = path.join(clientDistPath, 'index.html');
-  
-  // Safety check: if index.html is missing, it's likely a dev environment issue
-  path.exists = (p) => {
-    try { return !!path.resolve(p); } catch(e) { return false; }
-  };
   
   res.sendFile(indexPath, (err) => {
     if (err) {
