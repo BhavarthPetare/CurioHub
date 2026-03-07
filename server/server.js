@@ -31,8 +31,8 @@ const clientDistPath = path.join(__dirname, '../client/dist');
 app.use(express.static(clientDistPath));
 
 // Robust catch-all for Express 5: Use a regex to match everything except /api
-// This ensures SPA routing works and avoids PathErrors
-app.get(/^(?!\/api).+/, (req, res) => {
+// Matches /, /dashboard, /chat/..., but ignores /api/...
+app.get(/^(?!\/api).*/, (req, res) => {
   const indexPath = path.join(clientDistPath, 'index.html');
   
   res.sendFile(indexPath, (err) => {
