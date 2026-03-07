@@ -1,0 +1,12 @@
+{
+    "name": "curiohub-monorepo",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "install:all": "npm install --prefix client && npm install --prefix server",
+        "build:client": "npm install --prefix client && npm run build --prefix client",
+        "build:server": "npm install --prefix server",
+        "build": "npm run build:client && npm run build:server",
+        "start": "node server/server.js"
+    }
+}
