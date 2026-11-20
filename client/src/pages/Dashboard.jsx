@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
+import { API_URL } from '../config';
+import { useAuth } from '../context/useAuth';
+import { avatarUrl } from '../utils/avatar';
 
 const Dashboard = () => {
   const [recommendedRooms, setRecommendedRooms] = useState([]);
@@ -12,25 +14,24 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const fetchRooms = async () => {
+      try {
+        const [recRes, allRes] = await Promise.all([
+          axios.get(`${API_URL}/api/rooms/recommended`),
+          axios.get(`${API_URL}/api/rooms`)
+        ]);
+        setRecommendedRooms(recRes.data);
+        setAllRooms(allRes.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
     fetchRooms();
   }, []);
 
-  const fetchRooms = async () => {
-    try {
-      const [recRes, allRes] = await Promise.all([
-        axios.get(`${import.meta.env.VITE_API_URL}/api/rooms/recommended`),
-        axios.get(`${import.meta.env.VITE_API_URL}/api/rooms`)
-      ]);
-      setRecommendedRooms(recRes.data);
-      setAllRooms(allRes.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const filteredRooms = allRooms.filter(room => 
     room.name.toLowerCase().includes(search.toLowerCase()) || 
-    room.description.toLowerCase().includes(search.toLowerCase())
+    (room.description || '').toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -57,7 +58,7 @@ const Dashboard = () => {
                 <img 
                   alt={user?.name} 
                   className="w-full h-full object-cover" 
-                  src={`https://ui-avatars.com/api/?name=${user?.name || 'User'}&background=7311d4&color=fff`} 
+                  src={avatarUrl(user?.name)}
                 />
               </div>
               <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-surface-dark rounded-full"></div>
@@ -147,7 +148,7 @@ const Dashboard = () => {
 const RoomCard = ({ room, navigate }) => (
   <div className="bg-surface-dark p-6 rounded-2xl border border-primary/10 hover:border-primary/40 hover:-translate-y-1 transition-all group">
     <div className="w-14 h-14 bg-primary/20 rounded-xl flex items-center justify-center mb-4">
-      <span className="text-3xl">{room.icon || '💬'}</span>
+      <span className="text-3xl">{room.topicIcon || '💬'}</span>
     </div>
     <div className="flex items-center justify-between mb-2">
       <h3 className="text-lg font-bold text-slate-100">{room.name}</h3>
@@ -157,7 +158,7 @@ const RoomCard = ({ room, navigate }) => (
     <div className="flex items-center justify-between mt-auto">
       <div className="flex items-center gap-1 text-slate-400">
         <span className="material-symbols-outlined text-sm">groups</span>
-        <span className="text-xs font-medium">{room.activeUsers || 0} Online</span>
+        <span className="text-xs font-medium">{room.activeUsersCount || 0} Online</span>
       </div>
       <button 
         onClick={() => navigate(`/chat/${room._id}`)}

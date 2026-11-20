@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 
 const Register = () => {
     const [name, setName] = useState('');
@@ -36,11 +36,6 @@ const Register = () => {
                     <h2 className="text-slate-900 dark:text-white text-xl font-extrabold leading-tight tracking-tight">CurioHub</h2>
                 </div>
                 <div className="flex items-center gap-6">
-                    <nav className="hidden md:flex items-center gap-8">
-                        <a className="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Features</a>
-                        <a className="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Pricing</a>
-                        <a className="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">About</a>
-                    </nav>
                     <Link to="/login" className="flex min-w-[100px] cursor-pointer items-center justify-center rounded-full h-10 px-5 bg-primary hover:bg-primary/90 text-white text-sm font-bold transition-all shadow-lg shadow-primary/20">
                         Log In
                     </Link>
@@ -50,20 +45,20 @@ const Register = () => {
                 <div className="w-full max-w-[1100px] grid grid-cols-1 lg:grid-cols-2 bg-white dark:bg-slate-900/40 rounded-2xl overflow-hidden shadow-2xl border border-slate-200 dark:border-primary/10 backdrop-blur-sm mx-auto">
                     <div className="hidden lg:block relative overflow-hidden group">
                         <div className="absolute inset-0 bg-gradient-to-br from-primary/80 to-background-dark/90 z-10"></div>
-                        <div className="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuBkmxY0frBMXxm2aXoPXmDvJn-FKTMO1P2BrrAocijtPzsOaba11yCRs87s4rVfxiLeEv49n-WZSuZddCqBSINs3AsranXmc4RoO_wtgeFlrZM3KRwKnJ4cexxjjuU04iFqX_uPCIaNNYGvRYdX2rtiwYgeU36ticSbhufGAaJrrmXD2R0TxYnGoegm12sDdGyc0oyJRuZ9HKILt_4iMmU4GDn4m5p2d-MYdSi2OMpkclWgafWtojKdh0om8A2oJdxMu2lyT3XghOWZ')" }}></div>
+                        <div className="absolute inset-0 z-0 gradient-mesh"></div>
                         <div className="relative z-20 h-full flex flex-col justify-between p-12 text-white">
                             <div>
-                                <h1 className="text-4xl font-bold mb-4">Start your creative journey.</h1>
-                                <p className="text-lg text-white/80 leading-relaxed">Join over 10,000+ creators who are building the future of digital discovery with CurioHub.</p>
+                                <h1 className="text-4xl font-bold mb-4">Find your people.</h1>
+                                <p className="text-lg text-white/80 leading-relaxed">Live chat rooms for the topics you love, from cricket to AI to cooking.</p>
                             </div>
                             <div className="space-y-6">
                                 <div className="flex items-center gap-4">
-                                    <span className="material-symbols-outlined text-primary bg-white rounded-full p-2">verified_user</span>
-                                    <p className="text-sm font-medium">Enterprise-grade security for your data</p>
+                                    <span className="material-symbols-outlined text-primary bg-white rounded-full p-2">bolt</span>
+                                    <p className="text-sm font-medium">Real-time messages, no refresh needed</p>
                                 </div>
                                 <div className="flex items-center gap-4">
-                                    <span className="material-symbols-outlined text-primary bg-white rounded-full p-2">auto_awesome</span>
-                                    <p className="text-sm font-medium">AI-powered curation engines</p>
+                                    <span className="material-symbols-outlined text-primary bg-white rounded-full p-2">interests</span>
+                                    <p className="text-sm font-medium">Room picks based on your interests</p>
                                 </div>
                             </div>
                         </div>
@@ -110,6 +105,8 @@ const Register = () => {
                                         type="password"
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
+                                        minLength={8}
+                                        maxLength={72}
                                         required
                                     />
                                 </div>
