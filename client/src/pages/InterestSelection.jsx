@@ -1,17 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import axios from 'axios';
+import { API_URL } from '../config';
+import { useAuth } from '../context/useAuth';
+import { avatarUrl } from '../utils/avatar';
 
 const InterestSelection = () => {
-  const [selected, setSelected] = useState([]);
   const { updateInterests, user } = useAuth();
+  // Start from the user's saved interests so "My Interests" is an edit, not a reset.
+  const [selected, setSelected] = useState(user?.interests ?? []);
+  // Interests are the room names, so every choice maps to a real room.
+  const [interests, setInterests] = useState([]);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const interests = [
-    'Cricket', 'Football', 'Technology', 'History', 'Music', 
-    'Science', 'Gaming', 'Art', 'Travel', 'Photography', 
-    'Culinary', 'Fitness'
-  ];
+  useEffect(() => {
+    axios.get(`${API_URL}/api/rooms`)
+      .then((res) => {
+        const names = res.data.map((room) => room.name).sort();
+        setInterests(names);
+        // Drop saved interests that no longer match a room.
+        setSelected((prev) => prev.filter((name) => names.includes(name)));
+      })
+      .catch(() => setError('Could not load interests. Please refresh.'));
+  }, []);
 
   const toggleInterest = (interest) => {
     if (selected.includes(interest)) {
@@ -27,7 +39,7 @@ const InterestSelection = () => {
       await updateInterests(selected);
       navigate('/dashboard');
     } catch (err) {
-      console.error(err);
+      setError(err.response?.data?.message || 'Could not save interests. Please try again.');
     }
   };
 
@@ -43,12 +55,9 @@ const InterestSelection = () => {
               <h2 className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white truncate">CurioHub</h2>
             </div>
             <div className="flex items-center gap-3 sm:gap-4">
-              <button className="flex items-center justify-center p-2 rounded-full hover:bg-primary/10 text-slate-600 dark:text-slate-400">
-                <span className="material-symbols-outlined">notifications</span>
-              </button>
               <div 
                 className="h-10 w-10 rounded-full border-2 border-primary/30 bg-cover bg-center shrink-0" 
-                style={{ backgroundImage: `url('https://ui-avatars.com/api/?name=${user?.name || 'User'}&background=7311d4&color=fff')` }}
+                style={{ backgroundImage: `url('${avatarUrl(user?.name)}')` }}
               ></div>
             </div>
           </header>
@@ -81,6 +90,7 @@ const InterestSelection = () => {
                 ))}
               </div>
               <div className="w-full flex flex-col items-center gap-6">
+                {error && <p className="text-red-400 text-sm font-semibold" role="alert">{error}</p>}
                 <div className="flex items-center gap-2 text-primary bg-primary/10 px-4 py-2 rounded-full border border-primary/20">
                   <span className="material-symbols-outlined text-lg">check_circle</span>
                   <span className="text-sm font-bold">{selected.length} selected</span>

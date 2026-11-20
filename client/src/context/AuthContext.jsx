@@ -1,9 +1,9 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_URL } from '../config';
 
-const AuthContext = createContext();
+import { AuthContext } from './useAuth';
 
-export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
@@ -22,6 +22,23 @@ export const AuthProvider = ({ children }) => {
   }, [user]);
 
   useEffect(() => {
+    // Any 401 means the token is invalid or expired: drop the session so
+    // ProtectedRoute sends the user back to /login instead of showing a stale cache.
+    const id = axios.interceptors.response.use(
+      (res) => res,
+      (err) => {
+        if (err.response?.status === 401) {
+          localStorage.removeItem('token');
+          delete axios.defaults.headers.common['Authorization'];
+          setUser(null);
+        }
+        return Promise.reject(err);
+      }
+    );
+    return () => axios.interceptors.response.eject(id);
+  }, []);
+
+  useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -33,18 +50,19 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUser = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/me`);
+      const res = await axios.get(`${API_URL}/api/auth/me`);
       setUser(res.data);
     } catch (err) {
-      localStorage.removeItem('token');
-      delete axios.defaults.headers.common['Authorization'];
+      // 401 is handled by the interceptor; for network errors keep the session
+      // so a flaky connection doesn't log the user out.
+      if (err.response?.status !== 401) console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
   const login = async (email, password) => {
-    const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, { email, password });
+    const res = await axios.post(`${API_URL}/api/auth/login`, { email, password });
     localStorage.setItem('token', res.data.token);
     axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
     setUser(res.data.user);
@@ -52,7 +70,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const register = async (name, email, password) => {
-    const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, { name, email, password });
+    const res = await axios.post(`${API_URL}/api/auth/register`, { name, email, password });
     localStorage.setItem('token', res.data.token);
     axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
     setUser(res.data.user);
@@ -66,7 +84,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const updateInterests = async (interests) => {
-    const res = await axios.put(`${import.meta.env.VITE_API_URL}/api/auth/interests`, { interests });
+    const res = await axios.put(`${API_URL}/api/auth/interests`, { interests });
     setUser(res.data);
     return res.data;
   };

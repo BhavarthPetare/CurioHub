@@ -1,0 +1,25 @@
+# Render Blueprint: https://render.com/docs/blueprint-spec
+# One web service serves the API, WebSockets and the built React client.
+services:
+  - type: web
+    name: curiohub
+    runtime: node
+    plan: free
+    # Single instance: online presence is kept in memory.
+    buildCommand: npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production
+      - key: TRUST_PROXY
+        value: "1"
+      # Render generates a random 256-bit secret on first deploy.
+      - key: JWT_SECRET
+        generateValue: true
+      # Set in the Render dashboard (never committed): your Atlas connection string.
+      - key: MONGO_URI
+        sync: false

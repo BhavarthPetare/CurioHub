@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* index.html sets <html class="dark">; make `dark:` follow that class, not the OS theme. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
     --color-primary: #7311d4;
     --color-background-light: #f7f6f8;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -59,7 +59,6 @@ const Login = () => {
               <div className="space-y-2">
                 <div className="flex items-center justify-between px-1">
                   <label className="text-sm font-semibold text-slate-700 dark:text-slate-300" htmlFor="password">Password</label>
-                  <a className="text-xs font-medium text-primary hover:underline" href="#">Forgot?</a>
                 </div>
                 <div className="relative">
                   <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl">lock</span>
@@ -74,32 +73,10 @@ const Login = () => {
                   />
                 </div>
               </div>
-              <div className="flex items-center px-1">
-                <input className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary dark:bg-primary/10 dark:border-primary/30" id="remember" type="checkbox"/>
-                <label className="ml-2 text-sm text-slate-600 dark:text-slate-400 cursor-pointer" htmlFor="remember">Remember me on this device</label>
-              </div>
               <button type="submit" className="w-full rounded-lg bg-gradient-to-r from-primary to-[#9333ea] py-3.5 text-sm font-bold text-white shadow-lg shadow-primary/25 hover:opacity-90 active:scale-[0.98] transition-all">
                 Log In to CurioHub
               </button>
             </form>
-            <div className="relative my-8">
-              <div aria-hidden="true" className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-200 dark:border-slate-700"></div>
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white dark:bg-[#251b2e] px-2 text-slate-500 dark:text-slate-400">Or continue with</span>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <button className="flex items-center justify-center gap-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#2a1f33] py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                <img alt="Google" className="h-4 w-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqLGKvTCP7HCXPCTT3ZMBNqmVVH0awuKts8Dy_CCeGQGqxGOea_bCWx37UXxwBpRAR6zYuuINgJbTuR1ZCr_Mj3pe5x9K_GKN51whRGOd6-X5LezY-KKvlauqvV60rK14vGWImHxsbqMzjH7eNg-m4oYBsAolcYDR8eClK4FqkANWX0m2dGhWsHsqKyxeUnkUsSZHS3PaBM2KeToBmQFPLpqPWPEfu2MnQmBSqw3kuCOhcwA2nK9r6iFF_988JzKN8YpWlg1EOy-xM"/>
-                Google
-              </button>
-              <button className="flex items-center justify-center gap-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#2a1f33] py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                <span className="material-symbols-outlined text-lg">brand_awareness</span>
-                SSO
-              </button>
-            </div>
           </div>
           <div className="bg-slate-50 dark:bg-primary/5 px-8 py-5 text-center">
             <p className="text-sm text-slate-600 dark:text-slate-400">
@@ -107,11 +84,6 @@ const Login = () => {
             </p>
           </div>
         </div>
-        <footer className="mt-12 flex gap-6 text-xs font-medium text-slate-500 dark:text-slate-500">
-          <a className="hover:text-primary transition-colors" href="#">Terms of Service</a>
-          <a className="hover:text-primary transition-colors" href="#">Privacy Policy</a>
-          <a className="hover:text-primary transition-colors" href="#">Help Center</a>
-        </footer>
       </div>
       <div className="pointer-events-none fixed -left-24 -top-24 h-96 w-96 rounded-full bg-primary/10 blur-[100px]"></div>
       <div className="pointer-events-none fixed -bottom-24 -right-24 h-96 w-96 rounded-full bg-purple-600/10 blur-[100px]"></div>
